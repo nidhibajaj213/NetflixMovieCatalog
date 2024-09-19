@@ -1,30 +1,35 @@
 #!/bin/bash
 
-#!/bin/bash
-set -e
+# TODO your deploy script implementation...
+#
+#
+# # Navigate to the app directory
+cd ~/app
 
-echo ""
-echo "Installing python3.12-venv..."
-echo "--------------------------------"
-sudo apt-get update 
-sudo apt-get install -y python3.12-venv
+# Check if virtual environment exists, if not, create it
+if [ ! -d "venv" ]; then
+    echo "Creating Python virtual environment..."
+    python3 -m venv venv
+fi
 
-echo ""
-echo "Creating a Python virtual environment..."
-echo "--------------------------------"
-python3 -m venv venv
-
-echo ""
-echo "Activating the Python virtual environment..."
-echo "--------------------------------"
+# Activate the virtual environment
 source venv/bin/activate
 
-echo ""
-echo "Install Python dependencies..."
-echo "--------------------------------"
-pip install -r requirements.txt
+# Install dependencies from requirements.txt
+if [ -f "requirements.txt" ]; then
+    echo "Installing dependencies..."
+    pip install flask
+else
+    echo "No requirements.txt found. Skipping dependencies installation."
+fi
 
-echo ""
-echo "Starting the Python application..."
-echo "--------------------------------"
-python app.py
+# Stop any running app processes (optional)
+# If the app is running on port 8080, kill it first
+echo "Stopping the running app on port 8080 (if any)..."
+sudo fuser -k 8080/tcp || true  # Ignore errors if nothing is running
+
+# Start the app on port 8080
+echo "Starting the app..."
+python3 app.py
+
+echo "App deployment complete!"
