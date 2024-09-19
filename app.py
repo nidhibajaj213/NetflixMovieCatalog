@@ -16,7 +16,7 @@ with open('data/data_movies.json', 'r') as f:
 
 @app.route("/", methods=['GET'])
 def home():
-    return "Hello My Friends! This app is an API, there is no UI, I am Nidhi ;-)"
+    return "Hello  Friendssss! This app is an API, there is no UI, I am Nidhi ;-)"
 
 
 @app.route('/discover')
